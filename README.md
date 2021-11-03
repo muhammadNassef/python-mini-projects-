@@ -13,4 +13,4 @@ this program contains two major functions,
         and waits for yor guesses to match the saved word.
 
 # battery_charger_alarm.py:
-python script runs on Android Phones to start an alarm if the battery charge level reached 95% or if you start charging with the battery level (e.g. 4%) then the alarm will start if the battery charge level reached 96%.  
+python script runs on Android Phones to start an alarm if the battery charge level reached 95% or if you start charging with the battery level (e.g. 6%) then the alarm will start if the battery charge level reached 94%.  
