@@ -14,14 +14,26 @@ def battery_check():
     
     return [f"Charge Level: {battery_level} %\n\rBattery Status: {status_values[battery_status]}\n\rBattery Health: {health_values[battery_health]}", 
             battery_level, status_values[battery_status]]
-
-def start_alarm():
-    droid.mediaPlay(r"/storage/emulated/0/qpython/scripts3/mv.mp3")
+    
+def create_alarm_dialog():
     droid.dialogCreateAlert('Alarm', 'Press Button Stop To Exit!!')
     droid.dialogSetPositiveButtonText(" Stop ")
     droid.dialogShow()
     response = droid.dialogGetResponse().result
-    droid.dialogDismiss()
+    return response
+    
+def start_alarm():
+    droid.mediaPlay(r"/storage/emulated/0/qpython/scripts3/mv.mp3")
+    
+    response = create_alarm_dialog()
+    try:
+        if response['which'] == 'positive':
+            droid.dialogDismiss()
+            droid.mediaPlayClose()
+            
+    except:
+        droid.dialogDismiss()
+        droid.mediaPlayClose()
 
 def check_every_30sec(start_battery_level):
     current_battery_level = battery_check()[1]
@@ -54,6 +66,4 @@ finally:
     droid.batteryStopMonitoring()
     droid.mediaPlayClose()
     sys.exit(0)
-
-
 
