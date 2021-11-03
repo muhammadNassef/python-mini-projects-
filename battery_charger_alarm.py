@@ -30,7 +30,6 @@ def start_alarm():
         if response['which'] == 'positive':
             droid.dialogDismiss()
             droid.mediaPlayClose()
-            
     except:
         droid.dialogDismiss()
         droid.mediaPlayClose()
@@ -41,29 +40,37 @@ def check_every_30sec(start_battery_level):
         if current_battery_level >= 95 or (current_battery_level + start_battery_level) == 100:
             print(battery_check()[0])
             droid.ttsSpeak(f'Your battery level now is {current_battery_level}%, please disconnect the charger')
-            time.sleep(5)
-            start_alarm()
-            break
+            try:
+                time.sleep(5)
+                if battery_check()[2] == 'Not Charging':
+                    break
+                start_alarm()
+                break
+            except:
+                time.sleep(5)
+                start_alarm()
+                break
         else:
             time.sleep(30)
             current_battery_level = battery_check()[1]
             print(battery_check()[2])
 
+def main():
+    try:
+        droid = androidhelper.Android()
+        droid.batteryStartMonitoring()
 
-# Start of main program
-try:
-    droid = androidhelper.Android()
-    droid.batteryStartMonitoring()
+        start_battery_level = battery_check()[1]
+        print(f'Your battery start level  is {start_battery_level}%')
+        droid.ttsSpeak(f'Your battery start level  is {start_battery_level}%')
 
-    start_battery_level = battery_check()[1]
-    print(f'Your battery start level  is {start_battery_level}%')
-    droid.ttsSpeak(f'Your battery start level  is {start_battery_level}%')
+        check_every_30sec(start_battery_level)
+    except:
+        droid.ttsSpeak(f'sorry, there is a problem with the program')
+    finally:
+        droid.batteryStopMonitoring()
+        droid.mediaPlayClose()
+        sys.exit(0)
 
-    check_every_30sec(start_battery_level)
-except:
-    droid.ttsSpeak(f'sorry, there is a problem with the program')
-finally:
-    droid.batteryStopMonitoring()
-    droid.mediaPlayClose()
-    sys.exit(0)
+main()
 
