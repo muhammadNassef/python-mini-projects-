@@ -53,7 +53,11 @@ def check_every_30sec(start_battery_level):
         else:
             time.sleep(30)
             current_battery_level = battery_check()[1]
-            print(battery_check()[2])
+            if battery_check()[2] == 'Charging':
+                print(battery_check()[2])
+            else:
+                print(battery_check()[0])
+                break
 
 def main():
     try:
