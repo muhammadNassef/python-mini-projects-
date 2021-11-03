@@ -12,11 +12,11 @@ def battery_check():
     health_values = {1:"Unknown", 2:"Good", 3:"Overheat", 4:"Dead", 5:"Over Voltage", 6:"Unspecified Failure"}
     battery_health = droid.batteryGetHealth().result
     
-    return [f"Charge Level: {battery_level} %\n\rBattery Status: {status_values[battery_status]}\n\rBattery Health: {health_values[battery_health]}", 
+    return [f"Charge Level: {battery_level} %\n\rBattery Status: {status_values[battery_status]}\n\rBattery Health: {health_values[battery_health]}\n\r", 
             battery_level, status_values[battery_status]]
     
 def create_alarm_dialog():
-    droid.dialogCreateAlert('Alarm', 'Press Button Stop To Exit!!')
+    droid.dialogCreateAlert('Alarm', battery_check()[0] + 'Press Button Stop To Exit!!')
     droid.dialogSetPositiveButtonText(" Stop ")
     droid.dialogShow()
     response = droid.dialogGetResponse().result
