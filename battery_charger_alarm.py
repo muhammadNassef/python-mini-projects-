@@ -41,7 +41,7 @@ def check_every_30sec(start_battery_level):
             print(battery_check()[0])
             droid.ttsSpeak(f'Your battery level now is {current_battery_level}%, please disconnect the charger')
             try:
-                time.sleep(5)
+                time.sleep(10)
                 if battery_check()[2] == 'Not Charging':
                     break
                 else:
@@ -52,30 +52,28 @@ def check_every_30sec(start_battery_level):
                 start_alarm()
                 break
         else:
-            time.sleep(30)
-            current_battery_level = battery_check()[1]
             if battery_check()[2] == 'Charging':
+                time.sleep(30)
+                current_battery_level = battery_check()[1]
                 print(battery_check()[2])
             else:
                 print(battery_check()[0])
                 break
 
-def main():
-    try:
-        droid = androidhelper.Android()
-        droid.batteryStartMonitoring()
+droid = androidhelper.Android()
+try:
+    droid.batteryStartMonitoring()
 
-        start_battery_level = battery_check()[1]
-        print(f'Your battery start level  is {start_battery_level}%')
-        droid.ttsSpeak(f'Your battery start level  is {start_battery_level}%')
+    start_battery_level = battery_check()[1]
+    print(f'Your battery start level  is {start_battery_level}%')
+    droid.ttsSpeak(f'Your battery start level  is {start_battery_level}%')
 
-        check_every_30sec(start_battery_level)
-    except:
-        droid.ttsSpeak(f'sorry, there is a problem with the program')
-    finally:
-        droid.batteryStopMonitoring()
-        droid.mediaPlayClose()
-        sys.exit(0)
+    check_every_30sec(start_battery_level)
+except:
+    droid.ttsSpeak(f'sorry, there is a problem with the program')
+finally:
+    droid.batteryStopMonitoring()
+    droid.mediaPlayClose()
+    sys.exit(0)
 
-main()
 
