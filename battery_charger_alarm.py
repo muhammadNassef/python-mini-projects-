@@ -44,8 +44,9 @@ def check_every_30sec(start_battery_level):
                 time.sleep(5)
                 if battery_check()[2] == 'Not Charging':
                     break
-                start_alarm()
-                break
+                else:
+                    start_alarm()
+                    break
             except:
                 time.sleep(5)
                 start_alarm()
