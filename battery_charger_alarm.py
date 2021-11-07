@@ -4,6 +4,15 @@ import sys
 
 
 def battery_check():
+    """ Get the recent battery status
+    
+        Get the current battery charge level, battery status such as (charging or not), and battery health.
+        
+        return:
+            index 0: formatted string that contains the recent battery status
+            index 1: current battery charge level
+            index 2: current battery status (charging or not)
+    """
     battery_level = droid.batteryGetLevel().result
 
     status_values = {1:"Unknown", 2:"Charging", 3:"Discharging", 4:"Not Charging", 5:"Full"}
@@ -16,6 +25,13 @@ def battery_check():
             battery_level, status_values[battery_status]]
     
 def create_alarm_dialog():
+    """ Create a message dialog for the user to stop the alarm
+    
+        Create a dialog that contains the recent battery status values with a "Stop" button to close the alarm if pressed
+        
+        return:
+            a dictionary like object with key 'which'
+    """
     droid.dialogCreateAlert('Alarm', battery_check()[0] + 'Press Button Stop To Exit!!')
     droid.dialogSetPositiveButtonText(" Stop ")
     droid.dialogShow()
@@ -23,10 +39,14 @@ def create_alarm_dialog():
     return response
     
 def start_alarm():
-    droid.mediaPlay(r"/storage/emulated/0/qpython/scripts3/mv.mp3")
+    """ Start the Alarm with the specified audio file
     
-    response = create_alarm_dialog()
+        start playing the specified audio file, then create the message dialog and wait for the response of the user.
+    """
     try:
+        droid.mediaPlay(r"/storage/emulated/0/qpython/scripts3/mv.mp3")
+    
+        response = create_alarm_dialog()
         if response['which'] == 'positive':
             droid.dialogDismiss()
             droid.mediaPlayClose()
@@ -60,6 +80,7 @@ def check_every_30sec(start_battery_level):
                 print(battery_check()[0])
                 break
 
+# Script starts from here ...
 droid = androidhelper.Android()
 try:
     droid.batteryStartMonitoring()
@@ -70,8 +91,10 @@ try:
 
     check_every_30sec(start_battery_level)
 except:
+    # Telling the user that there is a problem with the program ...
     droid.ttsSpeak(f'sorry, there is a problem with the program')
 finally:
+    # Close mediaPlay and Exit the program After the program is finished ...
     droid.batteryStopMonitoring()
     droid.mediaPlayClose()
     sys.exit(0)
