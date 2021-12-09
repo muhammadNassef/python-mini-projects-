@@ -15,3 +15,9 @@ this program contains two major functions,
 # battery_charger_alarm.py:
 Python script runs on Android Phones using QPython3 App, to start an alarm if the battery charge level reached 95% or if you start charging with the battery level (e.g. 6%) then the alarm will start if the battery charge level reached 94% where the total of (6 + 94)% is 100%.
 The script checks battery charge level every 30 seconds.
+
+
+# automated_search.py:
+Python script that takes "search keywords and number of results from the command line" and searches the web for that "search keywords" and opens a new browser tab for each correct URL found related to the "search keywords".
+
+Note: number of results passed to minimize the result set of URLs returned by the search engine.  
