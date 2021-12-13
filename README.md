@@ -21,3 +21,8 @@ The script checks battery charge level every 30 seconds.
 Python script that takes "search keywords and number of results from the command line" and searches the web for that "search keywords" and opens a new browser tab for each correct URL found related to the "search keywords".
 
 Note: number of results passed to minimize the result set of URLs returned by the search engine.  
+
+# xkcd_comic_downloader.py
+[XKCD](https://xkcd.com/) is a popular geek webcomic 
+
+This is a Python script to get the URL of the latest 10 comic images, then save the results into Excel file along with the title of each image.
